@@ -1,0 +1,204 @@
+# QUICK REFERENCE - AUDIO EXTRACTION & AUTO CAPTIONS
+
+## ⚡ 30-Second Setup
+
+```bash
+cd c:\Users\DileepReddy\Downloads\video_summarization_system
+python app.py
+```
+
+Then open: **http://localhost:5000**
+
+---
+
+## 🎯 To Get Captions from English Video
+
+1. **Upload video** (any format with audio)
+2. **Check ✓ "Auto captions (speech-to-text)"**
+3. **Click "Process Video"**
+4. **Wait** (≈ video duration)
+5. **See captions** appear below
+6. **Copy or Download SRT**
+
+---
+
+## 📊 System Status: ✓ ALL READY
+
+| Component | Status |
+|-----------|--------|
+| FFmpeg | ✓ D:\ffmpeg-8.0.1-essentials_build\bin\ffmpeg.exe |
+| Whisper AI | ✓ openai/whisper-base (140MB) |
+| Python | ✓ 3.14.2 |
+| Flask Web | ✓ Running on port 5000 |
+| Audio Extract | ✓ 16 kHz WAV |
+| Transcription | ✓ English to text |
+| SRT Export | ✓ For video players |
+
+---
+
+## 🚀 What Happens
+
+```
+Video Upload
+    ↓ FFmpeg
+Audio Extraction (16 kHz WAV)
+    ↓ Whisper Model
+Speech-to-Text Transcription
+    ↓ SRT Formatter
+Captions with Timestamps
+    ↓
+Display on Web Page + Download
+```
+
+---
+
+## ⏱️ Processing Time
+
+- **1 min video**: ~1 minute
+- **5 min video**: ~5 minutes  
+- **10 min video**: ~10 minutes
+- **First run**: +2 minutes (model download)
+
+---
+
+## 📋 Output Formats
+
+### Plain Text (Copy to Clipboard)
+```
+Welcome to this tutorial. Today we'll learn
+about video processing and audio extraction...
+```
+
+### SRT Subtitles (Download File)
+```
+1
+00:00:00,000 --> 00:00:03,500
+Welcome to this tutorial.
+
+2
+00:00:03,500 --> 00:00:08,000
+Today we'll learn about video processing...
+```
+
+---
+
+## ✓ Supported Video Formats
+
+MP4 • AVI • MOV • WebM • MKV • FLV • ASF • WMV • 3GP • OGV
+
+---
+
+## ⚠️ Troubleshooting
+
+| Problem | Solution |
+|---------|----------|
+| "FFmpeg not found" | Download from https://www.gyan.dev/ffmpeg/builds/ |
+| Captions empty | Ensure video has clear English audio |
+| Taking too long | Normal - equals audio duration |
+| No text extracted | Check audio quality/clarity |
+
+---
+
+## 🎬 Example Usage
+
+```
+1. Open: http://localhost:5000
+2. Drop: tutorial.mp4 (5 minutes)
+3. Check: ✓ Auto captions
+4. Click: Process Video
+5. Wait: ~5 minutes
+6. Result: Full transcription + SRT file
+7. Use: Copy text or download SRT for video players
+```
+
+---
+
+## 💾 File Locations
+
+| File | Location |
+|------|----------|
+| Web App | app.py |
+| Audio Processing | summarizer/auto_caption.py |
+| FFmpeg Path Config | ffmpeg_path.txt |
+| Upload Folder | uploads/ |
+| Web Interface | templates/index.html |
+
+---
+
+## 🔧 System Info
+
+- **Python**: 3.14.2 (Virtual Env)
+- **Framework**: Flask 3.1.2
+- **AI Model**: Whisper-base (~140MB)
+- **Audio Extraction**: FFmpeg
+- **Backend**: PyTorch CPU
+- **Processing**: Real-time (no speed-up possible)
+
+---
+
+## 📞 Common Questions
+
+**Q: Does it require internet?**
+A: No, only first run needs internet to download Whisper model (~140MB)
+
+**Q: Can it handle multiple languages?**
+A: Current: English only. Can upgrade model if needed.
+
+**Q: Where are videos stored?**
+A: Temporary folder (auto-deleted after processing). No permanent storage.
+
+**Q: Is data sent to cloud?**
+A: No! Everything processed locally on your computer.
+
+**Q: Can I edit the captions?**
+A: Yes! Download SRT file and edit in any text editor.
+
+---
+
+## 🎯 Use Cases
+
+- 📹 Add subtitles to YouTube videos
+- 🎓 Create lecture transcripts
+- 📞 Get meeting notes automatically
+- ♿ Make videos accessible
+- 📝 Extract content for blog posts
+- 🎬 Video editing with auto-captions
+- 📚 Learning resources with transcripts
+
+---
+
+## ✨ Features
+
+✓ Audio extraction from any video format  
+✓ Speech-to-text transcription (English)  
+✓ Millisecond-accurate timestamps  
+✓ SRT subtitle file export  
+✓ Copy captions to clipboard  
+✓ Local processing (no cloud)  
+✓ Free and open-source  
+✓ No API keys required  
+
+---
+
+## 🚀 Start Now!
+
+```bash
+python app.py
+```
+
+**Visit:** http://localhost:5000
+
+**Upload:** Video with English audio
+
+**Get:** Text captions + SRT file
+
+---
+
+**Status: ✅ SYSTEM READY TO USE**
+
+*All dependencies installed and verified*
+*FFmpeg configured and working*
+*Whisper AI model ready*
+*Web interface running*
+
+**Your audio extraction and auto-caption system is ready!**

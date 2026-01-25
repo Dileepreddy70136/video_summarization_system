@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Video Summarization & Captions</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <div class="bg-orbs">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+    <div class="orb orb-4"></div>
+  </div>
+
+  <main class="page">
+    <div class="container">
+      <header class="header">
+        <h1 class="logo">Video Summarization</h1>
+        <p class="subtitle">Summarize videos, generate auto captions, or summarize</p>
+      </header>
+
+      <!-- Tabs -->
+      <div class="tabs">
+        <button type="button" class="tab-btn is-active" data-tab="video">Video</button>
+      </div>
+
+      <!-- Video Tab -->
+      <div id="panel-video" class="tab-panel is-active">
+        <form method="POST" enctype="multipart/form-data" id="form-video">
+          <div class="card">
+            <h2 class="card-title"><span class="icon">📤</span> Upload Video</h2>
+            <div class="drop-zone" id="dropZone">
+              <div class="icon">🎬</div>
+              <div><strong>Drop video here</strong> or click to choose</div>
+              <div class="hint">MP4, AVI, MOV, WebM, etc.</div>
+              <input type="file" name="video_file" id="videoFile" accept="video/*">
+            </div>
+
+            <div class="chk-row">
+              <label class="chk"><input type="checkbox" name="do_summary" checked> Summarize video (keyframes)</label>
+              <label class="chk"><input type="checkbox" name="do_caption"> Auto captions (speech-to-text)</label>
+            </div>
+
+            <button type="submit" class="btn btn-primary" id="btnVideo">
+              Process Video
+            </button>
+          </div>
+        </form>
+
+        {% if msg %}
+        <div class="status {{ msg_type }}">{{ msg }}</div>
+        {% endif %}
+
+        {% if summary or output_video or caption_text or caption_srt %}
+        <div class="results-grid">
+          {% if output_video %}
+          <div class="card result-card" style="animation: fadeIn 0.5s ease;">
+            <h2 class="card-title"><span class="icon">🎬</span> Summarized Video</h2>
+            <div class="video-wrap"><video controls playsinline preload="auto" src="/uploads/{{ output_video }}">Your browser does not support the video tag.</video></div>
+            <div class="card-stats">
+              <span class="stat">✓ Processed</span>
+            </div>
+          </div>
+          {% endif %}
+
+          {% if summary %}
+          <div class="card result-card" style="animation: fadeIn 0.5s ease; grid-column: 1 / -1;">
+            <h2 class="card-title"><span class="icon">📝</span> Video Summary</h2>
+            <div class="result-box" id="summaryText">{{ summary }}</div>
+            <div class="actions">
+              <button type="button" class="btn btn-outline" data-copy="summaryText">Copy Summary</button>
+            </div>
+          </div>
+          {% endif %}
+
+          {% if caption_text or caption_srt %}
+          <div class="card result-card" style="animation: fadeIn 0.5s ease; grid-column: 1 / -1;">
+            <h2 class="card-title"><span class="icon">📋</span> Auto Captions</h2>
+            <div class="result-box caption-box" id="captionText">{{ caption_text }}</div>
+            <div class="actions">
+              <button type="button" class="btn btn-outline" data-copy="captionText">Copy Captions</button>
+              {% if caption_srt %}<a href="#" class="btn btn-primary" id="downloadSrt">Download SRT</a>{% endif %}
+            </div>
+            {% if caption_srt %}
+            <div id="srtData" style="display:none">{{ caption_srt | e }}</div>
+            {% endif %}
+          </div>
+          {% endif %}
+        </div>
+        {% endif %}
+      </div>
+
+      <footer class="footer">AI Video Summarization • Auto Captions</footer>
+    </div>
+  </main>
+
+  <script src="/static/script.js"></script>
+</body>
+</html>

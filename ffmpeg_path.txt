@@ -1,0 +1,15 @@
+# FFmpeg path for video summarization and auto-captions.
+# Put the full path to ffmpeg.exe, or the folder that contains it (e.g. .../bin).
+# You can list several paths; the first that exists is used.
+#
+# Quick setup:
+#   1) Download: https://www.gyan.dev/ffmpeg/builds/ffmpeg-release-essentials.zip
+#   2) Extract and copy ffmpeg.exe from the zip's bin\ into one of the paths below.
+#   3) Create the folder if needed, e.g.: mkdir "C:\Users\DileepReddy\Downloads\ffmpeg-8.0.1\bin"
+#
+# Or set env FFMPEG_PATH or FFMPEG_BIN instead.
+#
+D:\ffmpeg-8.0.1-essentials_build\bin\ffmpeg.exe
+C:\Users\DileepReddy\Downloads\ffmpeg-8.0.1\bin\ffmpeg.exe
+C:\Users\DileepReddy\Downloads\ffmpeg-8.0.1\ffmpeg-8.0.1\bin\ffmpeg.exe
+C:\Users\DileepReddy\Downloads\ffmpeg-8.0.1-essentials_build\bin\ffmpeg.exe

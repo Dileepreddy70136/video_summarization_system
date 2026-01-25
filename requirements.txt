@@ -1,0 +1,6 @@
+flask
+transformers
+torch
+opencv-python
+numpy
+soundfile
