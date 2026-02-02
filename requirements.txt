@@ -1,12 +1,12 @@
 ﻿flask==2.3.3
 gunicorn==21.2.0
-transformers==4.31.0
-torch==2.0.1
-opencv-python==4.8.0.76
-numpy==1.24.3
+transformers==4.35.0
+torch==2.5.1
+opencv-python==4.10.0.82
+numpy==1.26.0
 soundfile==0.12.1
 moviepy==1.0.3
 edge-tts==6.1.1
 python-dotenv==1.0.0
 requests==2.31.0
-yt-dlp==2023.9.24
+yt-dlp==2024.1.1
