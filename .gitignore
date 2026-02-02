@@ -1,0 +1,23 @@
+# Python
+venv/
+__pycache__/
+*.pyc
+
+# Large files
+*.mp4
+*.avi
+*.mov
+*.zip
+*.rar
+*.pt
+*.pkl
+*.h5
+*.model
+
+# Data
+data/
+datasets/
+
+# OS
+.DS_Store
+Thumbs.db
