@@ -15,7 +15,12 @@ from summarizer.youtube_simple import summarize_youtube_simple
 
 app = Flask(__name__)
 
-UPLOAD_FOLDER = "uploads"
+# Production configuration
+app.config['MAX_CONTENT_LENGTH'] = 500 * 1024 * 1024  # 500MB max file size
+app.config['UPLOAD_FOLDER'] = os.getenv('UPLOAD_FOLDER', 'uploads')
+app.config['ENV'] = os.getenv('FLASK_ENV', 'production')
+
+UPLOAD_FOLDER = app.config['UPLOAD_FOLDER']
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
 
