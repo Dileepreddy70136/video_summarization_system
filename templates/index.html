@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,6 +10,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/static/style.css">
 </head>
+
 <body>
   <div class="bg-orbs">
     <div class="orb orb-1"></div>
@@ -19,86 +21,243 @@
 
   <main class="page">
     <div class="container">
-      <header class="header">
+      <!-- Header -->
+      <div class="header">
         <h1 class="logo">Video Summarization</h1>
-        <p class="subtitle">Summarize videos, generate auto captions, or summarize</p>
-      </header>
-
-      <!-- Tabs -->
-      <div class="tabs">
-        <button type="button" class="tab-btn is-active" data-tab="video">Video</button>
+        <p class="subtitle">Edit videos intelligently, generate captions, or create narrated summaries</p>
       </div>
 
-      <!-- Video Tab -->
-      <div id="panel-video" class="tab-panel is-active">
-        <form method="POST" enctype="multipart/form-data" id="form-video">
-          <div class="card">
-            <h2 class="card-title"><span class="icon">📤</span> Upload Video</h2>
+      <!-- Main Tab Navigation -->
+      <div class="main-tabs">
+        <button class="main-tab active" data-tab="video">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18"></rect>
+            <line x1="7" y1="2" x2="7" y2="22"></line>
+            <line x1="17" y1="2" x2="17" y2="22"></line>
+            <line x1="2" y1="12" x2="22" y2="12"></line>
+          </svg>
+          Video
+        </button>
+        <button class="main-tab" data-tab="youtube">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path
+              d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z">
+            </path>
+            <polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"></polygon>
+          </svg>
+          YouTube
+        </button>
+      </div>
+
+      <!-- Video Upload Tab -->
+      <div id="tab-video" class="tab-content active">
+        <form method="POST" enctype="multipart/form-data" id="videoForm">
+          <div class="upload-card">
+            <div class="upload-header">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                <polyline points="17 8 12 3 7 8"></polyline>
+                <line x1="12" y1="3" x2="12" y2="15"></line>
+              </svg>
+              <span>Upload Video</span>
+            </div>
+
             <div class="drop-zone" id="dropZone">
-              <div class="icon">🎬</div>
-              <div><strong>Drop video here</strong> or click to choose</div>
-              <div class="hint">MP4, AVI, MOV, WebM, etc.</div>
-              <input type="file" name="video_file" id="videoFile" accept="video/*">
+              <svg class="upload-icon" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                stroke-width="1.5">
+                <rect x="3" y="3" width="18" height="18" rx="2"></rect>
+                <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                <polyline points="21 15 16 10 5 21"></polyline>
+              </svg>
+              <div class="drop-text">
+                <strong>Drop video here or click to choose</strong>
+                <div class="hint">MP4, AVI, MOV, WebM, etc.</div>
+              </div>
+              <input type="file" name="video_file" accept="video/*" class="file-input" id="videoFile">
             </div>
 
-            <div class="chk-row">
-              <label class="chk"><input type="checkbox" name="do_summary" checked> Summarize video (keyframes)</label>
-              <label class="chk"><input type="checkbox" name="do_caption"> Auto captions (speech-to-text)</label>
+            <div class="options-grid">
+              <label class="option-checkbox">
+                <input type="checkbox" name="do_summary" checked>
+                <span class="checkmark"></span>
+                <div class="option-text">
+                  <strong>Visual Summary</strong>
+                  <small>(silent keyframes)</small>
+                </div>
+              </label>
+
+              <label class="option-checkbox">
+                <input type="checkbox" name="do_caption">
+                <span class="checkmark"></span>
+                <div class="option-text">
+                  <strong>Auto Captions</strong>
+                  <small>(speech-to-text)</small>
+                </div>
+              </label>
+
+              <label class="option-checkbox">
+                <input type="checkbox" name="do_smart_edit">
+                <span class="checkmark"></span>
+                <div class="option-text">
+                  <strong>Smart Edit</strong>
+                  <small>(trim with original voice)</small>
+                </div>
+              </label>
+
+              <label class="option-checkbox">
+                <input type="checkbox" name="do_narrated">
+                <span class="checkmark"></span>
+                <div class="option-text">
+                  <strong>Narrated Summary</strong>
+                  <small>(AI voice-over)</small>
+                </div>
+              </label>
             </div>
 
-            <button type="submit" class="btn btn-primary" id="btnVideo">
+            <button type="submit" class="btn-process" id="btnVideo">
               Process Video
             </button>
           </div>
         </form>
+      </div>
 
-        {% if msg %}
-        <div class="status {{ msg_type }}">{{ msg }}</div>
+      <!-- YouTube Tab -->
+      <div id="tab-youtube" class="tab-content">
+        <form method="POST" id="youtubeForm">
+          <div class="upload-card">
+            <div class="upload-header">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path
+                  d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z">
+                </path>
+                <polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"></polygon>
+              </svg>
+              <span>YouTube URL</span>
+            </div>
+
+            <div class="youtube-input-wrapper">
+              <input type="text" name="youtube_url" id="youtubeUrl" placeholder="https://www.youtube.com/watch?v=..."
+                class="youtube-input">
+            </div>
+
+            <div class="language-select-wrapper">
+              <label for="summaryLanguage">Summary Language</label>
+              <select name="summary_language" id="summaryLanguage" class="language-select">
+                <option value="telugu">Telugu (తెలుగు)</option>
+                <option value="english">English</option>
+              </select>
+            </div>
+
+            <button type="submit" class="btn-process" id="btnYoutube">
+              Process Video
+            </button>
+          </div>
+        </form>
+      </div>
+
+      <!-- Status Messages -->
+      {% if msg %}
+      <div class="status {{ msg_type }}">{{ msg }}</div>
+      {% endif %}
+
+      <!-- Results -->
+      {% if summary or output_video or caption_text or caption_srt or narrated_summary or narrated_video or
+      smart_edit_summary or smart_edit_video or youtube_summary %}
+      <div class="results-grid">
+        {% if youtube_summary %}
+        <div class="card result-card">
+          <h2 class="card-title"><span class="icon">🔍</span> YouTube AI Summary: {{ youtube_title }}</h2>
+          <div class="result-box" id="youtubeText">{{ youtube_summary }}</div>
+          <div class="actions">
+            <button type="button" class="btn btn-outline" data-copy="youtubeText">Copy Summary</button>
+          </div>
+        </div>
         {% endif %}
 
-        {% if summary or output_video or caption_text or caption_srt %}
-        <div class="results-grid">
-          {% if output_video %}
-          <div class="card result-card" style="animation: fadeIn 0.5s ease;">
-            <h2 class="card-title"><span class="icon">🎬</span> Summarized Video</h2>
-            <div class="video-wrap"><video controls playsinline preload="auto" src="/uploads/{{ output_video }}">Your browser does not support the video tag.</video></div>
-            <div class="card-stats">
-              <span class="stat">✓ Processed</span>
-            </div>
+        {% if smart_edit_video %}
+        <div class="card result-card">
+          <h2 class="card-title"><span class="icon">✂️</span> Smart Edited Video</h2>
+          <div class="video-wrap"><video controls playsinline preload="auto" src="/uploads/{{ smart_edit_video }}">Your
+              browser does not support the video tag.</video></div>
+          <div class="card-stats">
+            <span class="stat">✓ Intelligently Edited</span>
           </div>
-          {% endif %}
+        </div>
+        {% endif %}
 
-          {% if summary %}
-          <div class="card result-card" style="animation: fadeIn 0.5s ease; grid-column: 1 / -1;">
-            <h2 class="card-title"><span class="icon">📝</span> Video Summary</h2>
-            <div class="result-box" id="summaryText">{{ summary }}</div>
-            <div class="actions">
-              <button type="button" class="btn btn-outline" data-copy="summaryText">Copy Summary</button>
-            </div>
+        {% if smart_edit_summary %}
+        <div class="card result-card">
+          <h2 class="card-title"><span class="icon">📊</span> Edit Summary</h2>
+          <div class="result-box" id="smartEditText">{{ smart_edit_summary }}</div>
+          <div class="actions">
+            <button type="button" class="btn btn-outline" data-copy="smartEditText">Copy Summary</button>
           </div>
-          {% endif %}
+        </div>
+        {% endif %}
 
-          {% if caption_text or caption_srt %}
-          <div class="card result-card" style="animation: fadeIn 0.5s ease; grid-column: 1 / -1;">
-            <h2 class="card-title"><span class="icon">📋</span> Auto Captions</h2>
-            <div class="result-box caption-box" id="captionText">{{ caption_text }}</div>
-            <div class="actions">
-              <button type="button" class="btn btn-outline" data-copy="captionText">Copy Captions</button>
-              {% if caption_srt %}<a href="#" class="btn btn-primary" id="downloadSrt">Download SRT</a>{% endif %}
-            </div>
-            {% if caption_srt %}
-            <div id="srtData" style="display:none">{{ caption_srt | e }}</div>
-            {% endif %}
+        {% if narrated_video %}
+        <div class="card result-card">
+          <h2 class="card-title"><span class="icon">🎙️</span> Narrated Summary Video</h2>
+          <div class="video-wrap"><video controls playsinline preload="auto" src="/uploads/{{ narrated_video }}">Your
+              browser does not support the video tag.</video></div>
+          <div class="card-stats">
+            <span class="stat">✓ AI Voice-Over Added</span>
           </div>
+        </div>
+        {% endif %}
+
+        {% if narrated_summary %}
+        <div class="card result-card">
+          <h2 class="card-title"><span class="icon">📝</span> Narration Script</h2>
+          <div class="result-box" id="narratedText">{{ narrated_summary }}</div>
+          <div class="actions">
+            <button type="button" class="btn btn-outline" data-copy="narratedText">Copy Script</button>
+          </div>
+        </div>
+        {% endif %}
+
+        {% if output_video %}
+        <div class="card result-card">
+          <h2 class="card-title"><span class="icon">🎬</span> Summarized Video</h2>
+          <div class="video-wrap"><video controls playsinline preload="auto" src="/uploads/{{ output_video }}">Your
+              browser does not support the video tag.</video></div>
+          <div class="card-stats">
+            <span class="stat">✓ Processed</span>
+          </div>
+        </div>
+        {% endif %}
+
+        {% if summary %}
+        <div class="card result-card">
+          <h2 class="card-title"><span class="icon">📝</span> Video Summary</h2>
+          <div class="result-box" id="summaryText">{{ summary }}</div>
+          <div class="actions">
+            <button type="button" class="btn btn-outline" data-copy="summaryText">Copy Summary</button>
+          </div>
+        </div>
+        {% endif %}
+
+        {% if caption_text or caption_srt %}
+        <div class="card result-card">
+          <h2 class="card-title"><span class="icon">📋</span> Auto Captions</h2>
+          <div class="result-box caption-box" id="captionText">{{ caption_text }}</div>
+          <div class="actions">
+            <button type="button" class="btn btn-outline" data-copy="captionText">Copy Captions</button>
+            {% if caption_srt %}<a href="#" class="btn btn-primary" id="downloadSrt">Download SRT</a>{% endif %}
+          </div>
+          {% if caption_srt %}
+          <div id="srtData" style="display:none">{{ caption_srt | e }}</div>
           {% endif %}
         </div>
         {% endif %}
       </div>
+      {% endif %}
 
-      <footer class="footer">AI Video Summarization • Auto Captions</footer>
+      <footer class="footer">AI Video Summarization • Smart Editing • Auto Captions</footer>
     </div>
   </main>
 
   <script src="/static/script.js"></script>
 </body>
+
 </html>

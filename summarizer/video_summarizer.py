@@ -112,22 +112,65 @@ def _reencode_h264_for_web(path):
 
 
 def summarize_video(input_path, output_path):
+    """Summarize video by extracting key frames. Returns summary text or raises exception."""
+    
+    # Validate input file exists
+    if not os.path.exists(input_path):
+        raise FileNotFoundError(f"Input video not found: {input_path}")
+    
+    # Check file size
+    file_size = os.path.getsize(input_path)
+    if file_size < 1024:
+        raise ValueError(f"Input video file too small ({file_size} bytes), likely corrupted")
+    
     cap = cv2.VideoCapture(input_path)
+    
+    # Validate video can be opened
+    if not cap.isOpened():
+        cap.release()
+        raise ValueError(f"Cannot open video file: {input_path}. File may be corrupted.")
 
     fps = int(cap.get(cv2.CAP_PROP_FPS)) or 24
     width = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
     height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
+    total_frames = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
+    
+    # Validate video properties
+    if width <= 0 or height <= 0:
+        cap.release()
+        raise ValueError(f"Invalid video dimensions: {width}x{height}")
+    
+    if total_frames <= 0:
+        cap.release()
+        raise ValueError(f"Video has no frames or is corrupted (frame_count={total_frames})")
+    
+    # Calculate original duration
+    original_duration = total_frames / fps if fps > 0 else 0
 
     fourcc = cv2.VideoWriter_fourcc(*"mp4v")
     out = cv2.VideoWriter(output_path, fourcc, fps, (width, height))
+    
+    if not out.isOpened():
+        cap.release()
+        out.release()
+        raise ValueError(f"Cannot create output video: {output_path}")
 
     frame_count = 0
     saved_frames = 0
+    read_errors = 0
+    max_read_errors = 10  # Allow some errors but not too many
 
     while cap.isOpened():
         ret, frame = cap.read()
         if not ret:
-            break
+            read_errors += 1
+            if read_errors > max_read_errors:
+                print(f"[WARNING] Too many read errors ({read_errors}), stopping at frame {frame_count}")
+                break
+            if frame_count >= total_frames:
+                # Natural end of video
+                break
+            continue
 
         # every 30th frame = key frame
         if frame_count % 30 == 0:
@@ -138,22 +181,38 @@ def summarize_video(input_path, output_path):
 
     cap.release()
     out.release()
+    
+    # Validate output was created
+    if not os.path.exists(output_path) or os.path.getsize(output_path) < 1024:
+        raise ValueError(f"Failed to create valid output video: {output_path}")
+    
+    # Calculate summarized duration
+    summarized_duration = saved_frames / fps if fps > 0 else 0
+    reduction_percentage = ((original_duration - summarized_duration) / original_duration * 100) if original_duration > 0 else 0
 
     # Re-encode to H.264 so the file plays in browsers (mp4v often fails in Chrome/Edge/Firefox)
     _reencode_h264_for_web(output_path)
 
+    # Format durations
+    def format_duration(seconds):
+        mins = int(seconds // 60)
+        secs = int(seconds % 60)
+        if mins > 0:
+            return f"{mins}m {secs}s"
+        return f"{secs}s"
+
     # 🔥 PROFESSIONAL CAPTION-STYLE SUMMARY
     summary_text = f"""
-📌 Video Summary Highlights:
+📌 Video Summary Statistics:
 
-• The video was processed using key-frame extraction technique.
-• Major visual changes and important scenes were identified automatically.
-• The summarization reduces the video length while preserving meaningful content.
-• Total key frames extracted: {saved_frames}.
-• This helps viewers understand the core idea of the video in less time.
+• Original Duration: {format_duration(original_duration)} ({total_frames} frames)
+• Summary Duration: {format_duration(summarized_duration)} ({saved_frames} keyframes)
+• Reduction: {reduction_percentage:.1f}% shorter
 
 🧠 Technique Used:
-Key-frame based video summarization using OpenCV.
+Key-frame extraction every 30 frames to preserve important visual moments while reducing video length.
+
+✓ The summarized video maintains visual continuity while being significantly shorter.
 """
 
     return summary_text.strip()
