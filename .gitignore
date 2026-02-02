@@ -1,23 +1,148 @@
-# Python
+# Python - Virtual Environments
 venv/
-__pycache__/
-*.pyc
+.venv/
+env/
+ENV/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+pip-wheel-metadata/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
 
-# Large files
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+pip-log.txt
+pip-delete-this-directory.txt
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+.hypothesis/
+.pytest_cache/
+
+# IDEs
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+.project
+.pydevproject
+.settings/
+
+# Large Media Files
 *.mp4
 *.avi
 *.mov
+*.flv
+*.mkv
+*.wmv
+*.webm
+*.m4v
+*.mpg
+*.mpeg
+*.3gp
+*.ogv
+*.ts
+*.m3u8
+
+# Audio Files
+*.mp3
+*.wav
+*.aac
+*.flac
+*.wma
+*.ogg
+*.m4a
+
+# Archives
 *.zip
 *.rar
-*.pt
-*.pkl
-*.h5
-*.model
+*.tar.gz
+*.7z
+*.gz
+*.bz2
+*.xz
+*.tar
 
-# Data
+# Model/Data Files
+*.pt
+*.pth
+*.pkl
+*.pickle
+*.h5
+*.hdf5
+*.model
+*.bin
+*.joblib
+*.safetensors
+*.onnx
+*.pb
+*.pbtxt
+
+# Data directories
 data/
 datasets/
+checkpoints/
+models/
+weights/
 
-# OS
+# Output and temporary
+output/
+outputs/
+temp/
+tmp/
+cache/
+.cache/
+
+# OS Files
 .DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
 Thumbs.db
+desktop.ini
+
+# Environment Variables
+.env
+.env.local
+.env.*.local
+
+# Logs
+*.log
+logs/
+
+# Node (if applicable)
+node_modules/
+package-lock.json
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.project
