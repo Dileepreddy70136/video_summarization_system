@@ -1,4 +1,4 @@
-import os
+﻿import os
 import sys
 
 # Ensure project root is in path
@@ -161,14 +161,14 @@ def handle_request(template_name):
                             # Only set output_video if summarization succeeded
                             if os.path.exists(output_path):
                                 output_video = "youtube_summary_video.mp4"
-                                print(f"[YOUTUBE] ✓ Visual summary created: {output_path}")
+                                print(f"[YOUTUBE] âœ“ Visual summary created: {output_path}")
                                 sys.stdout.flush()
                             
                             # Cleanup the full downloaded video to save space
                             try:
                                 if os.path.exists(video_dl_path):
                                     os.remove(video_dl_path)
-                                    print(f"[CLEANUP] ✓ Removed downloaded video")
+                                    print(f"[CLEANUP] âœ“ Removed downloaded video")
                                     sys.stdout.flush()
                             except Exception as cleanup_err:
                                 print(f"[WARNING] Could not remove video: {cleanup_err}")
@@ -217,4 +217,8 @@ def handle_request(template_name):
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    import os
+    port = int(os.getenv('PORT', 5000))
+    debug = os.getenv('FLASK_ENV') != 'production'
+    app.run(host='0.0.0.0', port=port, debug=debug)
+

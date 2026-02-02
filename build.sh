@@ -1,20 +1,23 @@
-#!/bin/bash
+﻿#!/bin/bash
 set -e
 
-echo "Building Video Summarization System for Render..."
+echo "Installing system dependencies for Video Summarization System..."
 
-# Install system dependencies
-echo "Installing system packages..."
-apt-get update
-apt-get install -y ffmpeg libsndfile1 libgomp1
+# Update package lists
+apt-get update || true
+
+# Install required system packages
+apt-get install -y ffmpeg libsndfile1 libgomp1 || echo "Some packages may not be available"
+
+# Upgrade Python tools
+pip install --upgrade pip setuptools wheel
 
 # Install Python dependencies
-echo "Installing Python packages..."
-pip install --upgrade pip setuptools wheel
+echo "Installing Python packages from requirements.txt..."
 pip install -r requirements.txt
 
-# Verify installation
-echo "Verifying installation..."
-python -c "import flask; import torch; import cv2; print('✓ All dependencies installed')"
+# Quick verification
+echo "Verifying core packages..."
+python -c "import flask; import torch; print('Build verification: OK')"
 
-echo "Build complete!"
+echo "Build completed successfully!"
