@@ -7,11 +7,7 @@ if root_dir not in sys.path:
     sys.path.insert(0, root_dir)
 
 from flask import Flask, abort, render_template, request, send_from_directory
-from summarizer.video_summarizer import summarize_video
-from summarizer.auto_caption import transcribe_video
-from summarizer.smart_cutter import create_narrated_summary
-from summarizer.smart_edit import create_smart_edit
-from summarizer.youtube_simple import summarize_youtube_simple
+
 
 app = Flask(__name__)
 
@@ -80,11 +76,13 @@ def handle_request(template_name):
                     video_file.save(input_path)
 
                     if do_summary:
+                        from summarizer.video_summarizer import summarize_video
                         output_path = os.path.join(UPLOAD_FOLDER, "summary_video.mp4")
                         summary = summarize_video(input_path, output_path)
                         output_video = "summary_video.mp4"
 
                     if do_caption:
+                        from summarizer.auto_caption import transcribe_video
                         cap = transcribe_video(input_path)
                         if cap.get("error"):
                             if msg:
@@ -96,6 +94,7 @@ def handle_request(template_name):
                             caption_srt = cap.get("srt", "")
 
                     if do_narrated:
+                        from summarizer.smart_cutter import create_narrated_summary
                         narrated_output = os.path.join(UPLOAD_FOLDER, "narrated_summary.mp4")
                         result = create_narrated_summary(input_path, narrated_output)
                         if result.get("success"):
@@ -110,6 +109,7 @@ def handle_request(template_name):
                             msg_type = "error"
 
                     if do_smart_edit:
+                        from summarizer.smart_edit import create_smart_edit
                         smart_edit_output = os.path.join(UPLOAD_FOLDER, "smart_edit.mp4")
                         result = create_smart_edit(input_path, smart_edit_output)
                         if result.get("success"):
@@ -135,7 +135,7 @@ def handle_request(template_name):
             summary_language = request.form.get("summary_language", "english")
             try:
                 print(f"[YOUTUBE] Processing: {youtube_url} (Language: {summary_language})")
-                from summarizer.youtube_simple import download_youtube_video
+                from summarizer.youtube_simple import download_youtube_video, summarize_youtube_simple
                 
                 # 1. Get Text Summary with language support
                 result = summarize_youtube_simple(youtube_url, language=summary_language)
@@ -154,6 +154,7 @@ def handle_request(template_name):
                         sys.stdout.flush()
                         
                         try:
+                            from summarizer.video_summarizer import summarize_video
                             # Use a unique name for the summary or reuse summary_video.mp4
                             output_path = os.path.join(UPLOAD_FOLDER, "youtube_summary_video.mp4")
                             video_summary_text = summarize_video(video_dl_path, output_path)
