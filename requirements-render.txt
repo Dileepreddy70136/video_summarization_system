@@ -10,4 +10,3 @@ gunicorn==21.2.0
 python-dotenv==1.0.0
 requests==2.31.0
 yt-dlp==2023.9.24
-openai-whisper==20231117
